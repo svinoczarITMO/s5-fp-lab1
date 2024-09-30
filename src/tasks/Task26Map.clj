@@ -11,17 +11,15 @@
         (recur (mod (* numerator 10) d) (inc position) (assoc remainders numerator position))))))
 
 (defn longest-recurring-cycle-map [limit]
-  (let [cycles (map calculate-cycle-length (range 2 limit))]
-    (reduce (fn [longest d]
-              (let [cycle-length (calculate-cycle-length d)]
-                (if (> cycle-length (:length longest))
-                  {:length cycle-length :d d}
-                  longest)))
-            {:length 0 :d 0}
-            (range 2 limit))))
+  (reduce (fn [longest d]
+            (let [cycle-length (calculate-cycle-length d)]
+              (if (> cycle-length (:length longest))
+                {:length cycle-length :d d}
+                longest)))
+          {:length 0 :d 0}
+          (range 2 limit)))
 
 (println (:d (longest-recurring-cycle-map 1000)))
-
 
 (let [end-time (System/currentTimeMillis)
     duration (- end-time start-time)]

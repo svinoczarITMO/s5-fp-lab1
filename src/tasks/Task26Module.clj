@@ -8,8 +8,7 @@
       0
       (if-let [pos (get remainders numerator)]
         (- position pos)
-        (do
-          (recur (mod (* numerator 10) d) (inc position) (assoc remainders numerator position)))))))
+        (recur (mod (* numerator 10) d) (inc position) (assoc remainders numerator position))))))
 
 (defn longest-recurring-cycle-module [limit]
   (reduce (fn [longest d]
