@@ -1,4 +1,4 @@
-(ns Task5Tests
+(ns tasks.Task5Tests
   (:require [clojure.test :refer [deftest is run-tests]]
             [tasks.Task5TailRec :refer [smallest-multiple-tail]]  ; Хвостовая рекурсия
             [tasks.Task5Rec :refer [smallest-multiple-rec]]      ; Рекурсия

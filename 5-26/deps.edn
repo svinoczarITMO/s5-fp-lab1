@@ -4,8 +4,8 @@
         clj-kondo/clj-kondo {:mvn/version "2024.08.29"}
         cljfmt/cljfmt {:mvn/version "0.8.0"}}
  :aliases
-{:test {:extra-paths ["test"]
-         :main "kaocha.runner"}
+ {:test {:extra-paths ["test"]
+         :main-opts ["-m" "kaocha.runner"]}
 
   :lint {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2024.08.29"}}
          :main-opts ["-m" "clj-kondo.main" "--lint" "src" "test"]}

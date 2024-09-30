@@ -1,4 +1,4 @@
-(ns Task26Tests
+(ns tasks.Task26Tests
   (:require [clojure.test :refer [deftest is run-tests]]
             [tasks.Task26TailRec :refer [longest-recurring-cycle-tail]]
             [tasks.Task26Rec :refer [longest-recurring-cycle-rec]]  
