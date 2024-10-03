@@ -29,5 +29,5 @@ jobs:
       run: clojure -A:format
 
     - name: Run tests
-      run: clojure -M -m test/tasks/Task26Tests && clojure -M -m test/tasks/Task5Tests
+      run: clojure -M test/tasks/Task26Tests.clj && clojure -M test/tasks/Task5Tests.clj
 

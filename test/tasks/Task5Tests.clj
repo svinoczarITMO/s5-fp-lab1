@@ -1,11 +1,11 @@
 (ns tasks.Task5Tests
   (:require [clojure.test :refer [deftest is run-tests]]
-            [tasks.Task5TailRec :refer [smallest-multiple-tail]]  ; Хвостовая рекурсия
-            [tasks.Task5Rec :refer [smallest-multiple-rec]]      ; Рекурсия
-            [tasks.Task5Module :refer [smallest-multiple-module]]   ; Модульное решение
-            [tasks.Task5Map :refer [smallest-multiple-map]]      ; Использование map
-            [tasks.Task5Loop :refer [smallest-multiple-loop]]     ; Циклическое решение
-            [tasks.Task5Inf :refer [smallest-multiple-inf]]))     ; Бесконечная последовательность))
+            [tasks.Task5TailRec :refer [smallest-multiple-tail]]  
+            [tasks.Task5Rec :refer [smallest-multiple-rec]]      
+            [tasks.Task5Module :refer [smallest-multiple-module]]   
+            [tasks.Task5Map :refer [smallest-multiple-map]]      
+            [tasks.Task5Loop :refer [smallest-multiple-loop]]     
+            [tasks.Task5Inf :refer [smallest-multiple-inf]]))     
 
 (deftest test-smallest-multiple-tail
   (is (= (smallest-multiple-tail 20) 232792560)))
@@ -24,5 +24,3 @@
 
 (deftest test-smallest-multiple-inf
   (is (= (smallest-multiple-inf 20) 232792560)))
-
-(run-tests)
