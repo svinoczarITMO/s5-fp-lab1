@@ -23,11 +23,11 @@ jobs:
       run: npm install -g clj-kondo
 
     - name: Lint
-      run: clj -A:lint
+      run: clojure -A:lint
 
     - name: Format 
-      run: clj -A:format
+      run: clojure -A:format
 
     - name: Run tests
-      run: clj -M -m test/tasks/Task26Tests && clj -M -m test/tasks/Task5Tests
+      run: clojure -M -m test/tasks/Task26Tests && clojure -M -m test/tasks/Task5Tests
 
