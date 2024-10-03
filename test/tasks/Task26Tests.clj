@@ -24,3 +24,5 @@
 
 (deftest test-longest-recurring-cycle-inf
   (is (= (:d (longest-recurring-cycle-inf 1000)) 983)))
+
+(run-tests)

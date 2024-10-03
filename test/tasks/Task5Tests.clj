@@ -24,3 +24,5 @@
 
 (deftest test-smallest-multiple-inf
   (is (= (smallest-multiple-inf 20) 232792560)))
+
+(run-tests)
