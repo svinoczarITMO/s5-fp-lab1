@@ -18,11 +18,12 @@
 ### 1. Хвостовая рекурсия: `Task5TailRec`
 Этот модуль использует хвостовую рекурсию для нахождения наименьшего кратного числа. Основная функция:
 ```clojure
-(defn smallest-multiple-tail [n]
-  (loop [multiple 1]
-    (if (every? #(zero? (mod multiple %)) (range 1 (inc n)))
-      multiple
-      (recur (inc multiple)))))
+(defn lcm-tail [nums]
+  (let [lcm-helper (fn lcm-helper [acc nums]
+                     (if (empty? nums)
+                       acc
+                       (recur (lcm acc (first nums)) (rest nums))))]
+    (lcm-helper 1 nums)))
 ```
 Процесс делится на части с помощью функции `loop`, которая эффективно ищет наименьшее кратное чисел от 1 до `n`, избегая переполнения стека.
 
@@ -31,14 +32,10 @@
 ### 2. Рекурсия: `Task5Rec`
 Это решение использует простую рекурсию для вычисления наименьшего кратного числа:
 ```clojure
-(defn smallest-multiple-rec [n]
-  (letfn [(helper [current max]
-            (if (= current max)
-              (reduce lcm 1 (range 1 (inc max)))
-              (if (every? #(zero? (mod current %)) (range 1 (inc n)))
-                current
-                (recur (inc current) max))))]
-    (helper 1 n)))
+(defn lcm-recur [nums]
+  (if (= (count (seq nums)) 1)
+    (first nums)
+    (lcm (first nums) (lcm-recur (rest nums)))))
 ```
 Здесь каждая итерация проверяет делимость текущего числа и возвращает наименьшее кратное.
 
@@ -47,8 +44,9 @@
 ### 3. Модульное решение: `Task5Module`
 Модульное решение использует функции высшего порядка для модульности и фильтрации:
 ```clojure
-(defn smallest-multiple-module [n]
-  (reduce lcm 1 (range 1 (inc n))))
+(defn lcm-module [n]
+  (-> (generate n)
+      (filter-lcm)))
 ```
 Это решение более читабельно за счёт использования композиции функций и подходит для функционального стиля программирования.
 
@@ -57,7 +55,7 @@
 ### 4. Использование `map`: `Task5Map`
 Этот модуль использует функцию `map`, чтобы применить умножение ко всем числам в диапазоне от 1 до `n`:
 ```clojure
-(defn smallest-multiple-map [n]
+(defn lcm-map [n]
   (reduce lcm 1 (map identity (range 1 (inc n)))))
 ```
 Решение лаконично и эффективно для обработки последовательностей с минимальным количеством кода.
@@ -67,13 +65,11 @@
 ### 5. `loop` решение: `Task5Loop`
 Решение с использованием цикла `loop` аналогично хвостовой рекурсии:
 ```clojure
-(defn smallest-multiple-loop [n]
-  (loop [current 1
-         found false]
-    (if found
-      current
-      (let [divisible? (every? #(zero? (mod current %)) (range 1 (inc n)))]
-        (recur (inc current) (if divisible? true found))))))
+(defn lcm-loop [n]
+  (loop [acc 1 nums (range 1 (inc n))]
+    (if (empty? nums)
+      acc
+      (recur (lcm acc (first nums)) (rest nums)))))
 ```
 Цикл позволяет избежать необходимости рекурсивного вызова, тем самым оптимизируя использование ресурсов.
 
@@ -82,11 +78,10 @@
 ### 6. Бесконечная последовательность: `Task5Inf`
 В этом решении создаётся бесконечная последовательность чисел:
 ```clojure
-(defn smallest-multiple-inf [n]
-  (some (fn [current]
-          (when (every? #(zero? (mod current %)) (range 1 (inc n)))
-            current))
-        (iterate inc 1)))
+(defn lcm-inf [n]
+  (let [nums (take n (iterate inc 1))]
+    (reduce lcm 1 nums)))
+
 ```
 Такой подход позволяет работать с бесконечными последовательностями и находить наименьшее кратное число без лимита на количество итераций.
 
@@ -214,10 +209,10 @@
 Такой подход позволяет работать с потенциально бесконечными данными и находить число d с самой длинной повторяющейся последовательностью.
 
 [Решение](src/tasks/Task26Inf.clj)
-## Тестирвоание
+## Тестирование
 
-[Тесты для 5 задания](test/Task5Tests.clj)  
-[Тесты для 26 задания](test/Task26Tests.clj)
+[Тесты для 5 задания](test/tasks/Task5Tests.clj)  
+[Тесты для 26 задания](test/tasks/Task26Tests.clj)
 
 ## Заключение
 

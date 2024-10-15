@@ -8,13 +8,14 @@
 (defn lcm [a b]
   (/ (* a b) (gcd a b)))
 
-(defn smallest-multiple-tail [n]
-  (loop [multiple 1]
-    (if (every? #(zero? (mod multiple %)) (range 1 (inc n)))
-      multiple
-      (recur (inc multiple)))))
+(defn lcm-tail [nums]
+  (let [lcm-helper (fn lcm-helper [acc nums]
+                     (if (empty? nums)
+                       acc
+                       (recur (lcm acc (first nums)) (rest nums))))]
+    (lcm-helper 1 nums)))
 
-(println (smallest-multiple-tail 20))
+(println (lcm-tail (range 1 21)))
 
 
 (let [end-time (System/currentTimeMillis)
@@ -23,4 +24,4 @@
 
 
 ;; Ответ: 232792560
-;; Время выполнения (мс): 21118
+;; Время выполнения (мс): 2

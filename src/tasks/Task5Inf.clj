@@ -8,13 +8,12 @@
 (defn lcm [a b]
   (/ (* a b) (gcd a b)))
 
-(defn smallest-multiple-inf [n]
-  (some (fn [current]
-          (when (every? #(zero? (mod current %)) (range 1 (inc n)))
-            current))
-        (iterate inc 1)))
+(defn lcm-inf [n]
+  (let [nums (take n (iterate inc 1))]
+    (reduce lcm 1 nums)))
 
-(println (smallest-multiple-inf 20))
+(println(lcm-inf 20))
+
 
 (let [end-time (System/currentTimeMillis)
     duration (- end-time start-time)]
@@ -22,4 +21,4 @@
 
 
 ;; Ответ: 232792560
-;; Время выполнения (мс): 13896
+;; Время выполнения (мс): 2

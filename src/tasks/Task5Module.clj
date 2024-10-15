@@ -8,11 +8,17 @@
 (defn lcm [a b]
   (/ (* a b) (gcd a b)))
 
-(defn smallest-multiple-module [n]
-  (reduce lcm 1 (range 1 (inc n))))
+(defn generate [n]
+  (range 1 (inc n)))
 
-(println (smallest-multiple-module 20))
+(defn filter-lcm [nums]
+  (reduce lcm 1 nums))
 
+(defn lcm-module [n]
+  (-> (generate n)
+      (filter-lcm)))
+
+(println(lcm-module 20))
 
 
 (let [end-time (System/currentTimeMillis)
@@ -21,4 +27,4 @@
 
 
 ;; Ответ: 232792560
-;; Время выполнения (мс): 6
+;; Время выполнения (мс): 2

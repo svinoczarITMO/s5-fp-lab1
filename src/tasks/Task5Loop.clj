@@ -8,15 +8,14 @@
 (defn lcm [a b]
   (/ (* a b) (gcd a b)))
 
-(defn smallest-multiple-loop [n]
-  (loop [current 1
-         found false]
-    (if found
-      current
-      (let [divisible? (every? #(zero? (mod current %)) (range 1 (inc n)))]
-        (recur (inc current) (if divisible? true found))))))
+(defn lcm-loop [n]
+  (loop [acc 1 nums (range 1 (inc n))]
+    (if (empty? nums)
+      acc
+      (recur (lcm acc (first nums)) (rest nums)))))
 
-(println (smallest-multiple-loop 20))
+(println(lcm-loop 20))
+
 
 (let [end-time (System/currentTimeMillis)
     duration (- end-time start-time)]
@@ -24,4 +23,4 @@
 
 
 ;; Ответ: 232792560
-;; Время выполнения (мс): 8695
+;; Время выполнения (мс): 4

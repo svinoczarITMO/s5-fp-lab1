@@ -8,10 +8,11 @@
 (defn lcm [a b]
   (/ (* a b) (gcd a b)))
 
-(defn smallest-multiple-map [n]
+(defn lcm-map [n]
   (reduce lcm 1 (map identity (range 1 (inc n)))))
 
-(println (smallest-multiple-map 20))
+(println(lcm-map 20))
+
 
 (let [end-time (System/currentTimeMillis)
     duration (- end-time start-time)]
@@ -19,4 +20,4 @@
 
 
 ;; Ответ: 232792560
-;; Время выполнения (мс): 6
+;; Время выполнения (мс): 2

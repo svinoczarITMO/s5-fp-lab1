@@ -1,28 +1,28 @@
 (ns tasks.Task5Tests
   (:require [clojure.test :refer [deftest is run-tests]]
-            [tasks.Task5TailRec :refer [smallest-multiple-tail]]  
-            [tasks.Task5Rec :refer [smallest-multiple-rec]]      
-            [tasks.Task5Module :refer [smallest-multiple-module]]   
-            [tasks.Task5Map :refer [smallest-multiple-map]]      
-            [tasks.Task5Loop :refer [smallest-multiple-loop]]     
-            [tasks.Task5Inf :refer [smallest-multiple-inf]]))     
+            [tasks.Task5TailRec :refer [lcm-tail]]  
+            [tasks.Task5Rec :refer [lcm-recur]]      
+            [tasks.Task5Module :refer [lcm-module]]   
+            [tasks.Task5Map :refer [lcm-map]]      
+            [tasks.Task5Loop :refer [lcm-loop]]     
+            [tasks.Task5Inf :refer [lcm-inf]]))     
 
-(deftest test-smallest-multiple-tail
-  (is (= (smallest-multiple-tail 20) 232792560)))
+(deftest test-lcm-tail
+  (is (= (lcm-tail (range 1 21)) 232792560)))
 
-(deftest test-smallest-multiple-rec
-  (is (= (smallest-multiple-rec 20) 232792560)))
+(deftest test-lcm-recur
+  (is (= (lcm-recur (range 1 21)) 232792560)))
 
-(deftest test-smallest-multiple-module
-  (is (= (smallest-multiple-module 20) 232792560)))
+(deftest test-lcm-module
+  (is (= (lcm-module 20) 232792560)))
 
-(deftest test-smallest-multiple-map
-  (is (= (smallest-multiple-map 20) 232792560)))
+(deftest test-lcm-map
+  (is (= (lcm-map 20) 232792560)))
 
-(deftest test-smallest-multiple-loop
-  (is (= (smallest-multiple-loop 20) 232792560)))
+(deftest test-lcm-loop
+  (is (= (lcm-loop 20) 232792560)))
 
-(deftest test-smallest-multiple-inf
-  (is (= (smallest-multiple-inf 20) 232792560)))
+(deftest test-lcm-inf
+  (is (= (lcm-inf 20) 232792560)))
 
 (run-tests)
