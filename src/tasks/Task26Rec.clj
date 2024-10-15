@@ -1,6 +1,5 @@
 (ns tasks.Task26Rec (:gen-class))
 
-(let [start-time (System/currentTimeMillis)]
 
 (defn length-of-repeating-cycle [d]
   (letfn [(recur-helper [numerator remainders index]
@@ -9,7 +8,8 @@
                 0
                 (if-let [seen-index (get remainders new-remainder)]
                   (- index seen-index)
-                  (recur-helper (* new-remainder 10) (assoc remainders new-remainder index) (inc index))))))]
+                  (recur-helper (* new-remainder 10) 
+                    (assoc remainders new-remainder index) (inc index))))))]
     (recur-helper 1 {} 0)))
 
 (defn longest-repeating-cycle-recur [limit]
@@ -21,12 +21,7 @@
             (recur (inc d) max-length result)))
         result)))
 
-(println (longest-repeating-cycle-recur 1000))
-
-
-(let [end-time (System/currentTimeMillis)
-    duration (- end-time start-time)]
-(println "Время выполнения (мс):" duration)))
+(longest-repeating-cycle-recur 1000)
 
 
 ;; Ответ: 983

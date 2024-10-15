@@ -1,21 +1,17 @@
 (ns tasks.Task26TailRec (:gen-class))
 
-(let [start-time (System/currentTimeMillis)]
+(defn length-of-repeating-cycle [d]
+  (let [calculate-cycle (fn calculate-cycle [numerator index remainders]
+          (let [new-remainder (mod numerator d)]
+            (if (zero? new-remainder)
+              0
+              (if-let [seen-index (get remainders new-remainder)]
+                (- index seen-index)
+                (recur (* new-remainder 10) (inc index) 
+                        (assoc remainders new-remainder index))))))]
+    (calculate-cycle 1 0 {}))) 
 
-  (defn length-of-repeating-cycle [d]
-    (let [remainders (atom {})
-          calculate-cycle (fn calculate-cycle [numerator index]
-                            (let [new-remainder (mod numerator d)]
-                              (if (zero? new-remainder)
-                                0
-                                (if-let [seen-index (get @remainders new-remainder)]
-                                  (- index seen-index)
-                                  (do
-                                    (swap! remainders assoc new-remainder index)
-                                    (recur (* new-remainder 10) (inc index)))))))]
-      (calculate-cycle 1 0))) ;; убедитесь, что здесь правильно закрыты все скобки
-
-  (defn longest-repeating-cycle-tail [limit]
+(defn longest-repeating-cycle-tail [limit]
     (loop [d 2
            max-length 0
            result 0]
@@ -26,13 +22,7 @@
             (recur (inc d) max-length result)))
         result)))
 
-  (println (longest-repeating-cycle-tail 1000))
-
-  (let [end-time (System/currentTimeMillis)
-        duration (- end-time start-time)]
-    (println "Время выполнения (мс):" duration)))
-
-
+(longest-repeating-cycle-tail 1000)
 
 
 ;; Ответ: 983

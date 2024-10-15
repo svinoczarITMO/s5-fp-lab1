@@ -1,7 +1,5 @@
 (ns tasks.Task5Rec (:gen-class))
 
-(let [start-time (System/currentTimeMillis)]
-
 (defn gcd [a b]
   (if (zero? b) a (recur b (mod a b))))
 
@@ -14,13 +12,7 @@
     (lcm (first nums) (lcm-recur (rest nums)))))
 
 
-(println (lcm-recur (range 1 21)))
-
-
-(let [end-time (System/currentTimeMillis)
-    duration (- end-time start-time)]
-(println "Время выполнения (мс):" duration)))
-
+(lcm-recur (range 1 21))
 
 ;; Ответ: 232792560
 ;; Время выполнения (мс): 4

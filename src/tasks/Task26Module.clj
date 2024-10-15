@@ -1,7 +1,5 @@
 (ns tasks.Task26Module (:gen-class))
 
-(let [start-time (System/currentTimeMillis)]
-
 (defn length-of-longest-repeating-cycle [d]
   (loop [numerator 1 remainders {} index 0]
     (let [remainder (mod numerator d)]
@@ -20,12 +18,7 @@
           [0 0] (range 2 limit)))
 
 
-(println (first (longest-repeating-cycle-module 1000)))
-
-(let [end-time (System/currentTimeMillis)
-    duration (- end-time start-time)]
-(println "Время выполнения (мс):" duration)))
-
+(first (longest-repeating-cycle-module 1000))
 
 ;; Ответ: 983
 ;; Время выполнения (мс): 69
