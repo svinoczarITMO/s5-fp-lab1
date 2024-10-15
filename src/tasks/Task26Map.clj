@@ -2,24 +2,25 @@
 
 (let [start-time (System/currentTimeMillis)]
 
-(defn calculate-cycle-length [d]
-  (loop [numerator 1 position 0 remainders {}]
-    (if (zero? numerator)
+(defn length-of-longest-repeating-cycle [d]
+  (loop [n 1 rem 1 seen {} idx 0]
+    (if (zero? rem)
       0
-      (if-let [pos (get remainders numerator)]
-        (- position pos)
-        (recur (mod (* numerator 10) d) (inc position) (assoc remainders numerator position))))))
+      (if (contains? seen rem)
+        (- idx (seen rem))
+        (recur (inc n) (mod (* rem 10) d) (assoc seen rem idx) (inc idx))))))
 
-(defn longest-recurring-cycle-map [limit]
-  (reduce (fn [longest d]
-            (let [cycle-length (calculate-cycle-length d)]
-              (if (> cycle-length (:length longest))
-                {:length cycle-length :d d}
-                longest)))
-          {:length 0 :d 0}
-          (range 2 limit)))
+(defn longest-repeating-cycle-map [limit]
+  (let [lengths (map length-of-longest-repeating-cycle (range 2 limit))]
+    (first (reduce (fn [m len] 
+                     (if (> (second len) (second m))
+                       len 
+                       m))
+                   [0 0]
+                   (map vector (range 2 limit) lengths)))))
 
-(println (:d (longest-recurring-cycle-map 1000)))
+
+(println (longest-repeating-cycle-map 1000))
 
 (let [end-time (System/currentTimeMillis)
     duration (- end-time start-time)]
@@ -27,4 +28,4 @@
 
 
 ;; Ответ: 983
-;; Время выполнения (мс): 53
+;; Время выполнения (мс): 52

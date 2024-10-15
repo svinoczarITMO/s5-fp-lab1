@@ -2,35 +2,38 @@
 
 (let [start-time (System/currentTimeMillis)]
 
-(defn calculate-cycle-length [d]
-  (loop [numerator 1
-         position 0
-         remainders {}]
-    (if (zero? numerator)
-      0
-      (if-let [pos (get remainders numerator)]
-        (- position pos)
-        (recur (mod (* numerator 10) d) (inc position) (assoc remainders numerator position))))))
+  (defn length-of-repeating-cycle [d]
+    (let [remainders (atom {})
+          calculate-cycle (fn calculate-cycle [numerator index]
+                            (let [new-remainder (mod numerator d)]
+                              (if (zero? new-remainder)
+                                0
+                                (if-let [seen-index (get @remainders new-remainder)]
+                                  (- index seen-index)
+                                  (do
+                                    (swap! remainders assoc new-remainder index)
+                                    (recur (* new-remainder 10) (inc index)))))))]
+      (calculate-cycle 1 0))) ;; убедитесь, что здесь правильно закрыты все скобки
 
-(defn longest-recurring-cycle-tail [limit]
-  (loop [d 2
-         longest {:length 0 :d 0}]
-    (if (>= d limit)
-      longest
-      (let [cycle-length (calculate-cycle-length d)
-            new-longest (if (> cycle-length (:length longest))
-                          {:length cycle-length :d d}
-                          longest)]
-        (recur (inc d) new-longest)))))
+  (defn longest-repeating-cycle-tail [limit]
+    (loop [d 2
+           max-length 0
+           result 0]
+      (if (< d limit)
+        (let [cycle-length (length-of-repeating-cycle d)]
+          (if (> cycle-length max-length)
+            (recur (inc d) cycle-length d)
+            (recur (inc d) max-length result)))
+        result)))
 
-(println (:d (longest-recurring-cycle-tail 1000)))
+  (println (longest-repeating-cycle-tail 1000))
+
+  (let [end-time (System/currentTimeMillis)
+        duration (- end-time start-time)]
+    (println "Время выполнения (мс):" duration)))
 
 
-
-(let [end-time (System/currentTimeMillis)
-    duration (- end-time start-time)]
-(println "Время выполнения (мс):" duration)))
 
 
 ;; Ответ: 983
-;; Время выполнения (мс): 60
+;; Время выполнения (мс): 62

@@ -96,16 +96,16 @@
 Этот модуль применяет хвостовую рекурсию для эффективного вычисления:
 
 ```clojure
-(defn longest-recurring-cycle-tail [limit]
-  (loop [d 2
-         longest {:length 0 :d 0}]
-    (if (>= d limit)
-      longest
-      (let [cycle-length (calculate-cycle-length d)
-            new-longest (if (> cycle-length (:length longest))
-                          {:length cycle-length :d d}
-                          longest)]
-        (recur (inc d) new-longest)))))
+  (defn longest-repeating-cycle-tail [limit]
+    (loop [d 2
+           max-length 0
+           result 0]
+      (if (< d limit)
+        (let [cycle-length (length-of-repeating-cycle d)]
+          (if (> cycle-length max-length)
+            (recur (inc d) cycle-length d)
+            (recur (inc d) max-length result)))
+        result)))
 ```
 
 Лаконичное и эффективное решение для нахождения числа с самой длинной повторяющейся последовательностью с использованием хвостовой рекурсии, что позволяет избежать переполнения стека.
@@ -116,16 +116,14 @@
 Этот модуль использует стандартную рекурсию для нахождения длины цикла:
 
 ```clojure
-(defn longest-recurring-cycle-rec [limit]
-  (letfn [(helper [d longest]
-            (if (>= d limit)
-              longest
-              (let [cycle-length (calculate-cycle-length d)
-                    new-longest (if (> cycle-length (:length longest))
-                                  {:length cycle-length :d d}
-                                  longest)]
-                (helper (inc d) new-longest))))]
-    (helper 2 {:length 0 :d 0})))
+(defn longest-repeating-cycle-recur [limit]
+    (loop [d 2 max-length 0 result 0]
+      (if (< d limit)
+        (let [cycle-length (length-of-repeating-cycle d)]
+          (if (> cycle-length max-length)
+            (recur (inc d) cycle-length d)
+            (recur (inc d) max-length result)))
+        result)))
 ```
 
 Простое рекурсивное решение, которое проверяет каждое число на наличие повторяющихся циклов.
@@ -136,14 +134,13 @@
 Модульное решение структурирует код для удобного использования функций:
 
 ```clojure
-(defn longest-recurring-cycle-module [limit]
-  (reduce (fn [longest d]
-            (let [cycle-length (calculate-cycle-length d)]
-              (if (> cycle-length (:length longest))
-                {:length cycle-length :d d}
-                longest)))
-          {:length 0 :d 0}
-          (range 2 limit)))
+(defn longest-repeating-cycle-module [limit]
+  (reduce (fn [acc d]
+            (let [cycle-length (length-of-longest-repeating-cycle d)]
+              (if (> cycle-length (second acc))
+                [d cycle-length]
+                acc)))
+          [0 0] (range 2 limit)))
 ```
 
 Каждая функция отвечает за определенную задачу, что делает код читаемым и расширяемым.
@@ -154,15 +151,14 @@
 Этот модуль применяет `map` для применения функций к последовательностям:
 
 ```clojure
-(defn longest-recurring-cycle-map [limit]
-  (let [cycles (map calculate-cycle-length (range 2 limit))]
-    (reduce (fn [longest d]
-              (let [cycle-length (calculate-cycle-length d)]
-                (if (> cycle-length (:length longest))
-                  {:length cycle-length :d d}
-                  longest)))
-            {:length 0 :d 0}
-            (range 2 limit))))
+(defn longest-repeating-cycle-map [limit]
+  (let [lengths (map length-of-longest-repeating-cycle (range 2 limit))]
+    (first (reduce (fn [m len] 
+                     (if (> (second len) (second m))
+                       len 
+                       m))
+                   [0 0]
+                   (map vector (range 2 limit) lengths)))))
 ```
 
 Использование `map` делает код кратким и эффективным при обработке последовательностей.
@@ -173,42 +169,20 @@
 Циклы используются для итеративного решения задачи:
 
 ```clojure
-(defn longest-recurring-cycle-loop [limit]
-  (let [results (for [d (range 2 limit)]
-                  [d (calculate-cycle-length d)])]
-    (reduce (fn [longest [d cycle-length]]
-              (if (> cycle-length (:length longest))
-                {:length cycle-length :d d}
-                longest))
-            {:length 0 :d 0}
-            results)))
+(defn longest-repeating-cycle-loop [limit]
+  (loop [d 2 max-length 0 result 0]
+    (if (< d limit)
+      (let [cycle-length (length-of-longest-repeating-cycle d)]
+        (if (> cycle-length max-length)
+          (recur (inc d) cycle-length d)
+          (recur (inc d) max-length result)))
+      result)))
 ```
 
 Циклы обеспечивают предсказуемое выполнение и быстрое решение.
 
 [Решение](src/tasks/Task26Loop.clj)
 
-### 6. **Бесконечные последовательности (`Task26Inf`)**
-Решение использует бесконечные последовательности для поиска чисел:
-
-```clojure
-(defn longest-recurring-cycle-inf [limit]
-  (let [candidates (iterate inc 2)]
-    (loop [d (first candidates) longest {:length 0 :d 0}]
-      (if (>= d limit)
-        longest
-        (let [cycle-length (calculate-cycle-length d)
-              new-longest (if (> cycle-length (:length longest))
-                            {:length cycle-length :d d}
-                            longest)]
-          (recur (second candidates) new-longest))))))
-
-(println (:d (longest-recurring-cycle 1000)))
-```
-
-Такой подход позволяет работать с потенциально бесконечными данными и находить число d с самой длинной повторяющейся последовательностью.
-
-[Решение](src/tasks/Task26Inf.clj)
 ## Тестирование
 
 [Тесты для 5 задания](test/tasks/Task5Tests.clj)  
